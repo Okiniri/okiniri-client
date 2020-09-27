@@ -1,0 +1,21 @@
+{
+  "name": "okiniri-client",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx webpack --config webpack.config.js",
+    "serve": "static .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "pldespaigne",
+  "license": "ISC",
+  "devDependencies": {
+    "node-static": "^0.7.11",
+    "ts-loader": "^6.1.2",
+    "typescript": "^3.6.3",
+    "webpack": "^4.41.0",
+    "webpack-cli": "^3.3.9"
+  }
+}
