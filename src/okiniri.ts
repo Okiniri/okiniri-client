@@ -113,7 +113,7 @@ export class Okiniri {
 
     const request = {
       query:
-`query GetObjectTags($paginationToken: String) {
+`query GetObjectTags($paginationToken: ID) {
   ObjectTags(paginationToken: $paginationToken) {
     size token result
   }
@@ -130,7 +130,7 @@ export class Okiniri {
 
     const request = {
       query:
-`query GetLinkTags($paginationToken: String) {
+`query GetLinkTags($paginationToken: ID) {
   LinkTags(paginationToken: $paginationToken) {
     size token result
   }
@@ -170,7 +170,7 @@ export class Okiniri {
 
     const request = {
       query:
-`query GetObjects($tag: String, $orderBy: String, $paginationToken: String) {
+`query GetObjects($tag: String, $orderBy: String, $paginationToken: ID) {
   Objects(tag: $tag, orderBy: $orderBy, paginationToken: $paginationToken) {
     size token
     result {
