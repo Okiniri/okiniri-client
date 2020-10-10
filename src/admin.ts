@@ -96,7 +96,7 @@ export class OkiniriAdmin extends Okiniri {
     return this.sendRequest(request);
   }
 
-  async getUsers() {
+  async getUsers(orderBy?: string, paginationToken?: string) {
 
     const request = {
       query:
@@ -108,9 +108,12 @@ export class OkiniriAdmin extends Okiniri {
     }
   }
 }`,
-      variables: {},
+      variables: {
+        orderBy,
+        paginationToken,
+      },
     };
 
-    this.sendRequest(request);
+    return this.sendRequest(request);
   }
 }
