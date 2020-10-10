@@ -13,7 +13,7 @@ export class Okiniri {
     protected appId: string,
     protected userId: string,
     protected userSecret: string,
-  ) {}
+  ) { }
 
   protected async sendRequest(request: GraphQlRequest) {
 
@@ -28,10 +28,10 @@ export class Okiniri {
       headers,
       mode: 'cors',
       body: JSON.stringify(request),
-    }
+    };
 
     const result = await fetch(API_ENDPOINT, options);
-    return result
+    return result;
   }
 
   async createObject(tag: string, userId: string, objectId?: string, data?: string) {
@@ -48,7 +48,7 @@ export class Okiniri {
         ownerId: userId,
         id: objectId,
         data,
-      }
+      },
     };
 
     return this.sendRequest(request);
@@ -67,7 +67,43 @@ export class Okiniri {
         fromId,
         tag,
         toId,
-      }
+      },
+    };
+
+    return this.sendRequest(request);
+  }
+  
+  async getObjectById(id: string) {
+
+    const request = {
+      query:
+`query GetObjectById($id: ID!) {
+  ObjectById(id: $id) {
+    id tag ownerId timestamp data
+  }
+}`,
+      variables: {
+        id,
+      },
+    };
+
+    return this.sendRequest(request);
+  }
+
+  async getLinkInfo(toId: string, linkTag: string, fromTag?: string, fromId?: string) {
+    const request = {
+      query:
+`query GetLinkInfo($toId: ID!, $linkTag: String!, $fromTag: String, $fromId: ID) {
+  LinkInfo(toId: $toId, linkTag: $linkTag, fromTag: $fromTag, fromId: $fromId) {
+    linked count
+  }
+}`,
+      variables: {
+        toId,
+        linkTag,
+        fromTag,
+        fromId,
+      },
     };
 
     return this.sendRequest(request);

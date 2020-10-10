@@ -78,4 +78,21 @@ export class OkiniriAdmin extends Okiniri {
 
     return this.sendRequest(request);
   }
+
+  async getUserById(id: string) {
+
+    const request = {
+      query:
+`query GetUserById($id: ID!) {
+  UserById(id: $id) {
+    id timestamp secret
+  }
+}`,
+      variables: {
+        id,
+      },
+    };
+
+    return this.sendRequest(request);
+  }
 }
