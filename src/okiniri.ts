@@ -109,4 +109,82 @@ export class Okiniri {
     return this.sendRequest(request);
   }
 
+  async getObjectTags(paginationToken?: string) {
+
+    const request = {
+      query:
+`query GetObjectTags($paginationToken: String) {
+  ObjectTags(paginationToken: $paginationToken) {
+    size token result
+  }
+}`,
+      variables: {
+        paginationToken,
+      },
+    };
+
+    return this.sendRequest(request);
+  }
+
+  async getLinkTags(paginationToken?: string) {
+
+    const request = {
+      query:
+`query GetLinkTags($paginationToken: String) {
+  LinkTags(paginationToken: $paginationToken) {
+    size token result
+  }
+}`,
+      variables: {
+        paginationToken,
+      },
+    };
+
+    return this.sendRequest(request);
+  }
+
+  async getRules(fromTag?: string, linkTag?: string, toTag?: string, paginationToken?: string) {
+
+    const request = {
+      query:
+`query GetRules($fromTag: String, $linkTag: String, $toTag: String, $paginationToken: ID) {
+  Rules(fromTag: $fromTag, linkTag: $linkTag, toTag: $toTag, paginationToken: $paginationToken) {
+    size token
+    result {
+      fromTag fromConstraint linkTag toTag toConstraint count
+    }
+  }
+}`,
+      variables: {
+        fromTag,
+        linkTag,
+        toTag,
+        paginationToken,
+      },
+    };
+
+    return this.sendRequest(request);
+  }
+
+  async getObjects(tag?: string, orderBy?: string, paginationToken?: string) {
+
+    const request = {
+      query:
+`query GetObjects($tag: String, $orderBy: String, $paginationToken: String) {
+  Objects(tag: $tag, orderBy: $orderBy, paginationToken: $paginationToken) {
+    size token
+    result {
+      id tag ownerId timestamp data
+    }
+  }
+}`,
+      variables: {
+        tag,
+        orderBy,
+        paginationToken,
+      },
+    };
+
+    return this.sendRequest(request);
+  }
 }

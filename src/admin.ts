@@ -95,4 +95,22 @@ export class OkiniriAdmin extends Okiniri {
 
     return this.sendRequest(request);
   }
+
+  async getUsers() {
+
+    const request = {
+      query:
+`query GetUsers($orderBy: String, $paginationToken: ID) {
+  Users(orderBy: $orderBy, paginationToken: $paginationToken) {
+    size token
+    result {
+      id timestamp secret
+    }
+  }
+}`,
+      variables: {},
+    };
+
+    this.sendRequest(request);
+  }
 }
