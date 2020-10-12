@@ -1,5 +1,6 @@
 
 import { Okiniri } from './okiniri';
+import { User, Users } from './model';
 
 
 export class OkiniriAdmin extends Okiniri {
@@ -79,7 +80,7 @@ export class OkiniriAdmin extends Okiniri {
     return this.sendRequest(request);
   }
 
-  async getUserById(id: string) {
+  async getUserById(id: string): Promise<User> {
 
     const request = {
       query:
@@ -93,10 +94,10 @@ export class OkiniriAdmin extends Okiniri {
       },
     };
 
-    return this.sendRequest(request);
+    return this.sendRequest(request).then(data => data.UserById);
   }
 
-  async getUsers(orderBy?: string, paginationToken?: string) {
+  async getUsers(orderBy?: string, paginationToken?: string): Promise<Users> {
 
     const request = {
       query:
@@ -114,6 +115,6 @@ export class OkiniriAdmin extends Okiniri {
       },
     };
 
-    return this.sendRequest(request);
+    return this.sendRequest(request).then(data => data.Users);
   }
 }

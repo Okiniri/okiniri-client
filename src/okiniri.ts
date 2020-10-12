@@ -1,11 +1,23 @@
 
 import { fetch, Headers } from 'cross-fetch';
+import { LinkInfo, LinkTags, ObjectTags, Rules } from './model';
 
 const API_ENDPOINT = ' https://us-central1-social-api-a6ac2.cloudfunctions.net/api';
 
 export interface GraphQlRequest {
   query: string;
   variables?: any;
+}
+
+export interface GraphQlError {
+  extensions: {
+    code: string;
+  },
+  message: string;
+}
+export interface GraphQlResponse {
+  data?: any;
+  errors?: GraphQlError[];
 }
 
 export class Okiniri {
@@ -31,8 +43,11 @@ export class Okiniri {
       body: JSON.stringify(request),
     };
 
-    const result = await fetch(API_ENDPOINT, options).then(r => r.json());
-    return result;
+    const result: GraphQlResponse = await fetch(API_ENDPOINT, options).then(r => r.json());
+    if (!!result.errors) {
+      throw new Error(`${result.errors[0].extensions.code}: ${result.errors[0].message}`);
+    }
+    return result.data;
   }
 
   async createObject(tag: string, userId: string, objectId?: string, data?: string) {
@@ -91,7 +106,7 @@ export class Okiniri {
     return this.sendRequest(request);
   }
 
-  async getLinkInfo(toId: string, linkTag: string, fromTag?: string, fromId?: string) {
+  async getLinkInfo(toId: string, linkTag: string, fromTag?: string, fromId?: string): Promise<LinkInfo> {
     const request = {
       query:
 `query GetLinkInfo($toId: ID!, $linkTag: String!, $fromTag: String, $fromId: ID) {
@@ -107,10 +122,10 @@ export class Okiniri {
       },
     };
 
-    return this.sendRequest(request);
+    return this.sendRequest(request).then(data => data.LinkInfo);
   }
 
-  async getObjectTags(paginationToken?: string) {
+  async getObjectTags(paginationToken?: string): Promise<ObjectTags> {
 
     const request = {
       query:
@@ -124,10 +139,10 @@ export class Okiniri {
       },
     };
 
-    return this.sendRequest(request);
+    return this.sendRequest(request).then(data => data.ObjectTags);
   }
 
-  async getLinkTags(paginationToken?: string) {
+  async getLinkTags(paginationToken?: string): Promise<LinkTags> {
 
     const request = {
       query:
@@ -141,10 +156,10 @@ export class Okiniri {
       },
     };
 
-    return this.sendRequest(request);
+    return this.sendRequest(request).then(data => data.LinkTags);
   }
 
-  async getRules(fromTag?: string, linkTag?: string, toTag?: string, paginationToken?: string) {
+  async getRules(fromTag?: string, linkTag?: string, toTag?: string, paginationToken?: string): Promise<Rules> {
 
     const request = {
       query:
@@ -164,7 +179,7 @@ export class Okiniri {
       },
     };
 
-    return this.sendRequest(request);
+    return this.sendRequest(request).then(data => data.Rules);
   }
 
   async getObjects(tag?: string, orderBy?: string, paginationToken?: string) {
