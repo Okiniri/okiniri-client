@@ -2,11 +2,13 @@ const path = require('path');
 
 module.exports = {
   
-  watch: true,
+  watch: false,
   
   mode: 'development',
 
-  entry: './src/index.dev.ts',
+  entry: {
+    'okiniri': ['./src/index.ts'],
+  },
   
   module: {
     rules: [
@@ -24,6 +26,10 @@ module.exports = {
   
   output: {
     filename: 'index.js',
-    path: path.resolve(__dirname, 'build')
+    path: path.resolve(__dirname, 'dist/browser'),
+    library: '',
+    libraryExport: '',
+    libraryTarget: 'umd',
+    globalObject: 'this',
   }
 }

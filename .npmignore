@@ -1,4 +1,5 @@
 node_modules/
-dist/
-src/index.ts
+build/
+.cache/
+src/index.dev.ts
 index.html

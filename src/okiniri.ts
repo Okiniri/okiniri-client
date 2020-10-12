@@ -1,4 +1,5 @@
 
+import { fetch, Headers } from 'cross-fetch';
 
 const API_ENDPOINT = ' https://us-central1-social-api-a6ac2.cloudfunctions.net/api';
 
@@ -30,7 +31,7 @@ export class Okiniri {
       body: JSON.stringify(request),
     };
 
-    const result = await fetch(API_ENDPOINT, options);
+    const result = await fetch(API_ENDPOINT, options).then(r => r.json());
     return result;
   }
 

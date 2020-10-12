@@ -3,19 +3,32 @@
   "version": "1.0.2",
   "private": false,
   "description": "",
-  "main": "index.js",
+  "main": "dist/node/index.js",
+  "browser": "dist/browser/index.js",
   "scripts": {
-    "build": "npx webpack --config webpack.config.js",
+    "build": "npm run build:dev",
+    "build:dev": "npx webpack --config webpack.config.js",
+
+    "build:prod": "npm run build:prod:node && npm run build:prod:browser",
+    "build:prod:node": "npx tsc -p tsconfig.json",
+    "build:prod:browser": "npx webpack --config webpack.config.production.js",
+    
     "serve": "static .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "pldespaigne",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^14.11.8",
+    "@types/node-fetch": "^2.5.7",
     "node-static": "^0.7.11",
     "ts-loader": "^6.1.2",
-    "typescript": "^3.6.3",
+    "typescript": "^3.9.7",
     "webpack": "^4.41.0",
     "webpack-cli": "^3.3.9"
+  },
+  "dependencies": {
+    "cross-fetch": "^3.0.6",
+    "node-fetch": "^2.6.1"
   }
 }
