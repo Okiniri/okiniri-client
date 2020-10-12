@@ -1,6 +1,6 @@
 {
-  "name": "okiniri-client",
-  "version": "1.0.2",
+  "name": "@okiniri/sdk",
+  "version": "1.0.0",
   "private": false,
   "description": "",
   "main": "dist/node/index.js",
@@ -8,11 +8,9 @@
   "scripts": {
     "build": "npm run build:dev",
     "build:dev": "npx webpack --config webpack.config.js",
-
     "build:prod": "npm run build:prod:node && npm run build:prod:browser",
     "build:prod:node": "npx tsc -p tsconfig.json",
     "build:prod:browser": "npx webpack --config webpack.config.production.js",
-    
     "serve": "static .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -28,7 +26,6 @@
     "webpack-cli": "^3.3.9"
   },
   "dependencies": {
-    "cross-fetch": "^3.0.6",
-    "node-fetch": "^2.6.1"
+    "cross-fetch": "^3.0.6"
   }
 }
