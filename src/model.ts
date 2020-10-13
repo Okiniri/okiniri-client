@@ -1,15 +1,10 @@
 
 
-interface PaginatedResult<T> {
+export interface PaginatedResult<T> {
   size: number;
   token: string;
   result: T[];
 }
-
-type TagsResult = PaginatedResult<string>;
-
-export type LinkTags = TagsResult;
-export type ObjectTags = TagsResult;
 
 export interface Rule {
   count: number;
@@ -19,8 +14,6 @@ export interface Rule {
   toTag: string;
   toConstraint: string;
 }
-
-export type Rules = PaginatedResult<Rule>;
 
 export interface LinkInfo {
   count: number;
@@ -32,5 +25,3 @@ export interface User {
   timestamp: number;
   secret: string;
 }
-
-export type Users = PaginatedResult<User>;

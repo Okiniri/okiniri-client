@@ -1,6 +1,6 @@
 
 import { Okiniri } from './okiniri';
-import { User, Users } from './model';
+import { PaginatedResult, Rule, User } from './model';
 
 
 export class OkiniriAdmin extends Okiniri {
@@ -12,7 +12,7 @@ export class OkiniriAdmin extends Okiniri {
     super(appId, 'ADMIN', appSecret);
   }
 
-  async defineObject(tag: string) {
+  async defineObject(tag: string): Promise<string> {
 
     const request = {
       query:
@@ -24,10 +24,10 @@ export class OkiniriAdmin extends Okiniri {
       }
     };
 
-    return this.sendRequest(request);
+    return this.sendRequest(request).then(data => data.createObjectTag);
   }
 
-  async defineLink(tag: string) {
+  async defineLink(tag: string): Promise<string> {
 
     const request = {
       query:
@@ -39,10 +39,10 @@ export class OkiniriAdmin extends Okiniri {
       }
     };
 
-    return this.sendRequest(request);
+    return this.sendRequest(request).then(data => data.createLinkTag);
   }
 
-  async defineRelation(fromTag: string, fromConstraint: string, linkTag: string, toTag: string, toConstraint: string) {
+  async defineRelation(fromTag: string, fromConstraint: string, linkTag: string, toTag: string, toConstraint: string): Promise<Rule> {
 
     const request = {
       query:
@@ -60,10 +60,10 @@ export class OkiniriAdmin extends Okiniri {
       }
     };
 
-    return this.sendRequest(request);
+    return this.sendRequest(request).then(data => data.createRule);
   }
 
-  async upsertUser(userId?: string) {
+  async upsertUser(userId?: string): Promise<User> {
 
     const request = {
       query:
@@ -77,7 +77,7 @@ export class OkiniriAdmin extends Okiniri {
       }
     };
 
-    return this.sendRequest(request);
+    return this.sendRequest(request).then(data => data.upsertUser);
   }
 
   async getUserById(id: string): Promise<User> {
@@ -97,7 +97,7 @@ export class OkiniriAdmin extends Okiniri {
     return this.sendRequest(request).then(data => data.UserById);
   }
 
-  async getUsers(orderBy?: string, paginationToken?: string): Promise<Users> {
+  async getUsers(orderBy?: string, paginationToken?: string): Promise<PaginatedResult<User>> {
 
     const request = {
       query:

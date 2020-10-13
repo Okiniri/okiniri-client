@@ -1,6 +1,7 @@
 
 import { fetch, Headers } from 'cross-fetch';
-import { LinkInfo, LinkTags, ObjectTags, Rules } from './model';
+import { LinkInfo, PaginatedResult, Rule } from './model';
+import { GraphLink, GraphObject, parseRawLink } from './object';
 
 const API_ENDPOINT = ' https://us-central1-social-api-a6ac2.cloudfunctions.net/api';
 
@@ -28,7 +29,7 @@ export class Okiniri {
     protected userSecret: string,
   ) { }
 
-  protected async sendRequest(request: GraphQlRequest) {
+  async sendRequest(request: GraphQlRequest) {
 
     const headers = new Headers({
       'Content-Type': 'application/json',
@@ -50,7 +51,7 @@ export class Okiniri {
     return result.data;
   }
 
-  async createObject(tag: string, userId: string, objectId?: string, data?: string) {
+  async createObject(tag: string, userId: string, objectId?: string, data?: string): Promise<GraphObject> {
     
     const request = {
       query:
@@ -67,10 +68,13 @@ export class Okiniri {
       },
     };
 
-    return this.sendRequest(request);
+    return this.sendRequest(request).then(data => {
+      const object = data.ObjectById;
+      return new GraphObject(this, object.id, object.tag, object.ownerId, object.timestamp, object.data);
+    });
   }
 
-  async createLink(fromId: string, tag: string, toId: string) {
+  async createLink(fromId: string, tag: string, toId: string): Promise<GraphLink> {
 
     const request = {
       query:
@@ -86,10 +90,10 @@ export class Okiniri {
       },
     };
 
-    return this.sendRequest(request);
+    return this.sendRequest(request).then(data => parseRawLink(this, data.createLink));
   }
   
-  async getObjectById(id: string) {
+  async getObjectById(id: string): Promise<GraphObject> {
 
     const request = {
       query:
@@ -103,7 +107,10 @@ export class Okiniri {
       },
     };
 
-    return this.sendRequest(request);
+    return this.sendRequest(request).then(data => {
+      const object = data.ObjectById;
+      return new GraphObject(this, object.id, object.tag, object.ownerId, object.timestamp, object.data);
+    });
   }
 
   async getLinkInfo(toId: string, linkTag: string, fromTag?: string, fromId?: string): Promise<LinkInfo> {
@@ -125,7 +132,7 @@ export class Okiniri {
     return this.sendRequest(request).then(data => data.LinkInfo);
   }
 
-  async getObjectTags(paginationToken?: string): Promise<ObjectTags> {
+  async getObjectTags(paginationToken?: string): Promise<PaginatedResult<string>> {
 
     const request = {
       query:
@@ -142,7 +149,7 @@ export class Okiniri {
     return this.sendRequest(request).then(data => data.ObjectTags);
   }
 
-  async getLinkTags(paginationToken?: string): Promise<LinkTags> {
+  async getLinkTags(paginationToken?: string): Promise<PaginatedResult<string>> {
 
     const request = {
       query:
@@ -159,7 +166,7 @@ export class Okiniri {
     return this.sendRequest(request).then(data => data.LinkTags);
   }
 
-  async getRules(fromTag?: string, linkTag?: string, toTag?: string, paginationToken?: string): Promise<Rules> {
+  async getRules(fromTag?: string, linkTag?: string, toTag?: string, paginationToken?: string): Promise<PaginatedResult<Rule>> {
 
     const request = {
       query:
@@ -182,7 +189,7 @@ export class Okiniri {
     return this.sendRequest(request).then(data => data.Rules);
   }
 
-  async getObjects(tag?: string, orderBy?: string, paginationToken?: string) {
+  async getObjects(tag?: string, orderBy?: string, paginationToken?: string): Promise<PaginatedResult<GraphObject>> {
 
     const request = {
       query:
@@ -201,6 +208,16 @@ export class Okiniri {
       },
     };
 
-    return this.sendRequest(request);
+    return this.sendRequest(request).then(data => {
+      const { size, token, result } = data.Objects;
+      const objects = result.map(rawObject => {
+        return new GraphObject(this, rawObject.id, rawObject.tag, rawObject.ownerId, rawObject.timestamp, rawObject.data);
+      });
+      return {
+        size,
+        token,
+        result: objects,
+      };
+    });
   }
 }
