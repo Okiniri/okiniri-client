@@ -27,7 +27,6 @@ export function parseRawLink(graph: Okiniri | OkiniriClient | OkiniriAdmin, rawL
 
 export class GraphObject {
 
-
     constructor(
       public graph: Okiniri | OkiniriClient | OkiniriAdmin,
       public id: string,
