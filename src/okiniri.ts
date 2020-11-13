@@ -69,7 +69,7 @@ export class Okiniri {
     };
 
     return this.sendRequest(request).then(data => {
-      const object = data.ObjectById;
+      const object = data.createObject;
       return new GraphObject(this, object.id, object.tag, object.ownerId, object.timestamp, object.data);
     });
   }
