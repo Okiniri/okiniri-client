@@ -1,5 +1,4 @@
 
-
 export interface PaginatedResult<T> {
   size: number;
   token: string;

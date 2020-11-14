@@ -1,4 +1,8 @@
 
+// we must explicitly tell eslint that `RequestInit` exists
+// even if we imported `"lib": ["DOM"]` in the tsconfig.json
+/* global RequestInit */
+
 import { fetch, Headers } from 'cross-fetch';
 import { LinkInfo, PaginatedResult, Rule } from './model';
 import { GraphLink, GraphObject, parseRawLink } from './object';
@@ -45,14 +49,20 @@ export class Okiniri {
     };
 
     const result: GraphQlResponse = await fetch(API_ENDPOINT, options).then(r => r.json());
-    if (!!result.errors) {
+
+    if (result.errors) {
       throw new Error(`${result.errors[0].extensions.code}: ${result.errors[0].message}`);
     }
     return result.data;
   }
 
-  async createObject(tag: string, userId: string, objectId?: string, data?: string): Promise<GraphObject> {
-    
+  async createObject(
+    tag: string,
+    userId: string,
+    objectId?: string,
+    objectData?: string,
+  ): Promise<GraphObject> {
+
     const request = {
       query:
 `mutation CreateObject($tag: String!, $ownerId: ID!, $id: ID, $data: String) {
@@ -64,13 +74,19 @@ export class Okiniri {
         tag,
         ownerId: userId,
         id: objectId,
-        data,
+        data: objectData,
       },
     };
 
     return this.sendRequest(request).then(data => {
       const object = data.createObject;
-      return new GraphObject(this, object.id, object.tag, object.ownerId, object.timestamp, object.data);
+      return new GraphObject(
+        this, object.id,
+        object.tag,
+        object.ownerId,
+        object.timestamp,
+        object.data,
+      );
     });
   }
 
@@ -92,7 +108,7 @@ export class Okiniri {
 
     return this.sendRequest(request).then(data => parseRawLink(this, data.createLink));
   }
-  
+
   async getObjectById(id: string): Promise<GraphObject> {
 
     const request = {
@@ -109,11 +125,22 @@ export class Okiniri {
 
     return this.sendRequest(request).then(data => {
       const object = data.ObjectById;
-      return new GraphObject(this, object.id, object.tag, object.ownerId, object.timestamp, object.data);
+      return new GraphObject(
+        this, object.id,
+        object.tag,
+        object.ownerId,
+        object.timestamp,
+        object.data,
+      );
     });
   }
 
-  async getLinkInfo(toId: string, linkTag: string, fromTag?: string, fromId?: string): Promise<LinkInfo> {
+  async getLinkInfo(
+    toId: string,
+    linkTag: string,
+    fromTag?: string,
+    fromId?: string,
+  ): Promise<LinkInfo> {
     const request = {
       query:
 `query GetLinkInfo($toId: ID!, $linkTag: String!, $fromTag: String, $fromId: ID) {
@@ -166,7 +193,12 @@ export class Okiniri {
     return this.sendRequest(request).then(data => data.LinkTags);
   }
 
-  async getRules(fromTag?: string, linkTag?: string, toTag?: string, paginationToken?: string): Promise<PaginatedResult<Rule>> {
+  async getRules(
+    fromTag?: string,
+    linkTag?: string,
+    toTag?: string,
+    paginationToken?: string,
+  ): Promise<PaginatedResult<Rule>> {
 
     const request = {
       query:
@@ -189,7 +221,11 @@ export class Okiniri {
     return this.sendRequest(request).then(data => data.Rules);
   }
 
-  async getObjects(tag?: string, orderBy?: string, paginationToken?: string): Promise<PaginatedResult<GraphObject>> {
+  async getObjects(
+    tag?: string,
+    orderBy?: string,
+    paginationToken?: string,
+  ): Promise<PaginatedResult<GraphObject>> {
 
     const request = {
       query:
@@ -210,9 +246,14 @@ export class Okiniri {
 
     return this.sendRequest(request).then(data => {
       const { size, token, result } = data.Objects;
-      const objects = result.map(rawObject => {
-        return new GraphObject(this, rawObject.id, rawObject.tag, rawObject.ownerId, rawObject.timestamp, rawObject.data);
-      });
+      const objects = result.map(rawObject => new GraphObject(
+        this,
+        rawObject.id,
+        rawObject.tag,
+        rawObject.ownerId,
+        rawObject.timestamp,
+        rawObject.data,
+      ));
       return {
         size,
         token,

@@ -21,7 +21,7 @@ export class OkiniriAdmin extends Okiniri {
 }`,
       variables: {
         tag,
-      }
+      },
     };
 
     return this.sendRequest(request).then(data => data.createObjectTag);
@@ -36,13 +36,18 @@ export class OkiniriAdmin extends Okiniri {
 }`,
       variables: {
         tag,
-      }
+      },
     };
 
     return this.sendRequest(request).then(data => data.createLinkTag);
   }
 
-  async defineRelation(fromTag: string, fromConstraint: string, linkTag: string, toTag: string, toConstraint: string): Promise<Rule> {
+  async defineRelation(
+    fromTag: string,
+    fromConstraint: string,
+    linkTag: string,
+    toTag: string, toConstraint: string,
+  ): Promise<Rule> {
 
     const request = {
       query:
@@ -57,7 +62,7 @@ export class OkiniriAdmin extends Okiniri {
         linkTag,
         toTag,
         toConstraint,
-      }
+      },
     };
 
     return this.sendRequest(request).then(data => data.createRule);
@@ -73,8 +78,8 @@ export class OkiniriAdmin extends Okiniri {
   }
 }`,
       variables: {
-
-      }
+        id: userId,
+      },
     };
 
     return this.sendRequest(request).then(data => data.upsertUser);
