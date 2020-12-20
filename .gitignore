@@ -1,0 +1,9 @@
+node_modules
+build
+dist
+
+.eslintcache
+
+index.html
+
+**/*-debug.log
