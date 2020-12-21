@@ -11,8 +11,8 @@ export class OkiniriClient {
 
   private url: string;
 
-  constructor(private token: string, public options: OkiniriClientOptions) {
-    this.url = options.apiUrl ?? DEFAULT_API_URL;
+  constructor(private token: string, public options?: OkiniriClientOptions) {
+    this.url = options?.apiUrl ?? DEFAULT_API_URL;
   }
 
   private async sendRequest(method: 'POST' | 'DELETE' | 'GET', path: string, body?: any) {
@@ -26,7 +26,8 @@ export class OkiniriClient {
       mode: 'cors' as 'cors',
       method,
       headers: {
-        Accept: `Bearer: ${this.token}`,
+        'Content-Type': 'application/json; charset=utf-8',
+        Authorization: `Bearer ${this.token}`,
       },
     };
 
@@ -59,7 +60,7 @@ export class OkiniriClient {
     return this.sendRequest('DELETE', '/link', links);
   }
 
-  public async query(query: { yokyu: string }) {
-    return this.sendRequest('POST', '/query', query);
+  public async query(query: string) {
+    return this.sendRequest('POST', '/query', { yokyu: query });
   }
 }
