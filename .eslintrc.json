@@ -8,7 +8,9 @@
         "airbnb-base"
     ],
     "ignorePatterns": [
-        "webpack.config*.js"
+        "webpack.config*.js",
+        "build/**/*.js",
+        "dist/**/*.js"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {

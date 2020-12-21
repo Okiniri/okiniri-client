@@ -4,11 +4,9 @@ module.exports = {
   
   watch: false,
   
-  mode: 'development',
+  mode: 'production',
 
-  entry: {
-    'okiniri': ['./src/index.ts'],
-  },
+  entry: './src/index.ts',
   
   module: {
     rules: [
@@ -27,9 +25,7 @@ module.exports = {
   output: {
     filename: 'index.js',
     path: path.resolve(__dirname, 'dist/browser'),
-    library: '',
-    libraryExport: '',
+    library: 'okiniri',
     libraryTarget: 'umd',
-    globalObject: 'this',
   }
 }

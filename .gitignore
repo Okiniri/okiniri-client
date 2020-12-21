@@ -4,6 +4,7 @@ dist
 
 .eslintcache
 
+index.dev.ts
 index.html
 
 **/*-debug.log

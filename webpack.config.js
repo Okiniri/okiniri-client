@@ -6,8 +6,8 @@ module.exports = {
   
   mode: 'development',
 
-  entry: './src/index.ts',
-  
+  entry: './src/index.dev.ts',
+
   module: {
     rules: [
       {
@@ -19,7 +19,7 @@ module.exports = {
   },
   
   resolve: {
-    extensions: [ '.tsx', '.ts', '.js' ]
+    extensions: [ '.tsx', '.ts', '.js' ],
   },
   
   output: {
