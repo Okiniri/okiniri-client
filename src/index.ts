@@ -1,7 +1,3 @@
 
-import { run } from './client';
-
-console.log('hello world !');
-
-run().then(console.log);
-
+export { OkiniriClient, OkiniriClientOptions } from './client';
+export { createToken } from './token';
