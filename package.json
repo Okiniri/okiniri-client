@@ -31,6 +31,7 @@
     "webpack-cli": "^4.2.0"
   },
   "dependencies": {
+    "ajv": "^7.0.2",
     "cross-fetch": "^3.0.6",
     "jsrsasign": "^10.1.4"
   }

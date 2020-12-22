@@ -1,5 +1,11 @@
 
 import { fetch } from 'cross-fetch';
+import {
+  validateQuery,
+  validateCreateObjects,
+  validateDeleteObjects,
+  validateCreateOrDeleteLinks,
+} from './validate';
 
 const DEFAULT_API_URL = 'https://europe-west1-okiniri-dawn.cloudfunctions.net/api_v0';
 
@@ -45,22 +51,27 @@ export class OkiniriClient {
   }
 
   public async createObjects(objects: { tag: string, id?: string }[]) {
+    validateCreateObjects(objects);
     return this.sendRequest('POST', '/object', objects);
   }
 
   public async deleteObjects(objects: { id: string }[]) {
+    validateDeleteObjects(objects);
     return this.sendRequest('DELETE', '/object', objects);
   }
 
   public async createLinks(links: { fromId: string, linkTag: string, toId: string }[]) {
+    validateCreateOrDeleteLinks(links);
     return this.sendRequest('POST', '/link', links);
   }
 
   public async deleteLinks(links: { fromId: string, linkTag: string, toId: string }[]) {
+    validateCreateOrDeleteLinks(links);
     return this.sendRequest('DELETE', '/link', links);
   }
 
   public async query(query: string) {
+    validateQuery(query);
     return this.sendRequest('POST', '/query', { yokyu: query });
   }
 }
