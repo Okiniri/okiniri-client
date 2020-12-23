@@ -29,7 +29,7 @@ describe('Test the createToken function', () => {
     const token = createToken('graph_0', 'graph_0_secret');
 
     expect(token).toBe('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJncmFwaElkIjoiZ3JhcGhfMCJ9.eWSTkTzFg9djvnlwQI1r_2fOqYEMwJCoeaDlIaDcbGQ');
-    expect((global.console.warn as ReturnType<typeof jest.fn>).mock.calls.length).toBe(1);
+    expect((global.console.warn as ReturnType<typeof jest.fn>)).toHaveBeenCalledTimes(1);
     expect((global.console.warn as ReturnType<typeof jest.fn>).mock.calls[0][0])
       .toBe('The \'createToken()\' function should be used in the backend! Exposing your \'secret\' to client is not secure!');
 

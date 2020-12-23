@@ -7,5 +7,5 @@ module.exports = {
     './src/*.ts',
     '!./src/index.dev.ts',
   ],
-  coverageReporters: ['json', 'text', 'text-summary'],
+  coverageReporters: ['json', 'lcov', 'text', 'text-summary'],
 };

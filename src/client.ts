@@ -13,12 +13,21 @@ export interface OkiniriClientOptions {
   apiUrl?: string;
 }
 
+function assertUrl(toCheck: string) {
+  const url = new URL(toCheck);
+  return !!url;
+}
+
 export class OkiniriClient {
 
   private url: string;
 
   constructor(private token: string, public options?: OkiniriClientOptions) {
+    if (!!this.options?.apiUrl && this.options.apiUrl.endsWith('/')) {
+      this.options.apiUrl = this.options.apiUrl.substring(0, this.options.apiUrl.length - 1);
+    }
     this.url = options?.apiUrl ?? DEFAULT_API_URL;
+    assertUrl(this.url);
   }
 
   private async sendRequest(method: 'POST' | 'DELETE' | 'GET', path: string, body?: any) {
