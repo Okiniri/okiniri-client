@@ -3,6 +3,7 @@ build
 dist
 
 .eslintcache
+coverage
 
 index.dev.ts
 index.html
