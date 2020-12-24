@@ -7,20 +7,20 @@ const tagSchema: JSONSchemaType<string> = {
   type: 'string',
   minLength: 1,
   maxLength: 128,
-  pattern: '[a-zA-Z0-9_]+',
+  pattern: '^[a-zA-Z0-9_]+$',
 };
 
 const idSchema: JSONSchemaType<string> = {
   type: 'string',
   minLength: 2,
   maxLength: 128,
-  pattern: '[a-zA-Z0-9][a-zA-Z0-9_]*[a-zA-Z0-9]',
+  pattern: '^[a-zA-Z0-9][a-zA-Z0-9_]*[a-zA-Z0-9]$',
 };
 
 export function validateWrapper(validate: ValidateFunction) {
   return (params: any) => {
     if (!validate(params)) {
-      throw new Error(ajv.errorsText(validate.errors).replace('/', '.'));
+      throw new Error(ajv.errorsText(validate.errors).split('/').join('.'));
     }
   };
 }
