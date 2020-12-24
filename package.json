@@ -15,10 +15,10 @@
   "scripts": {
     "start": "static . --port 5000",
     "dev": "npx webpack --config webpack.config.js",
-    "build:prod": "npm run lint && npm run build:prod:node && npm run build:prod:browser",
+    "build:prod": "npm run build:prod:node && npm run build:prod:browser",
     "build:prod:node": "npx tsc -p tsconfig.json",
     "build:prod:browser": "npx webpack --config webpack.config.production.js",
-    "prepublishOnly": "npm run build:prod",
+    "prepublishOnly": "npm run lint && npm run test:full && npm run build:prod",
     "lint": "npx eslint ./src/**",
     "test": "jest --onlyChanged --runInBand",
     "test:full": "jest --runInBand"
