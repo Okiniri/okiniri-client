@@ -1,10 +1,17 @@
 {
-  "name": "dawn-sdk",
-  "version": "0.0.1",
-  "description": "",
-  "main": "dist/node/index.js",
-  "browser": "dist/browser/index.js",
-  "types": "dist/types/index.d.ts",
+  "name": "@okiniri/sdk",
+  "private": false,
+  "version": "0.0.0",
+  "description": "SDK for the Okiniri API.",
+  "author": "pldespaigne",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Okiniri/okiniri-sdk"
+  },
+  "main": "./dist/node/index.js",
+  "browser": "./dist/browser/index.js",
+  "types": "./dist/types/index.d.ts",
   "scripts": {
     "start": "static . --port 5000",
     "dev": "npx webpack --config webpack.config.js",
@@ -16,8 +23,6 @@
     "test": "jest --onlyChanged --runInBand",
     "test:full": "jest --runInBand"
   },
-  "author": "pldespaigne",
-  "license": "ISC",
   "devDependencies": {
     "@jest/globals": "^26.6.2",
     "@types/jsrsasign": "^8.0.9",
