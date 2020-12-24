@@ -3,6 +3,13 @@ import { KJUR } from 'jsrsasign';
 
 const { sign } = KJUR.jws.JWS;
 
+/**
+ * Create an access token (JWT) in order to use the Okiniri REST API.
+ * @note This function should be **use only in the backend**,
+ * since having production secret loaded in a client environment is not secure.
+ * @param graphId The ID of the graph you want to interact with.
+ * @param secret The secret of the graph you want to interact with.
+ */
 export function createToken(graphId: string, secret: string) {
 
   if (typeof process === 'undefined' && !!window) {
