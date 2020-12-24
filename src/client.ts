@@ -5,7 +5,7 @@ import {
   validateCreateObjects,
   validateDeleteObjects,
   validateCreateOrDeleteLinks,
-} from './validate';
+} from '@okiniri/validate';
 
 const DEFAULT_API_URL = 'https://europe-west1-okiniri-dawn.cloudfunctions.net/api_v0';
 
