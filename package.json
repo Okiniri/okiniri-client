@@ -1,7 +1,7 @@
 {
   "name": "@okiniri/sdk",
   "private": false,
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "SDK for the Okiniri API.",
   "author": "pldespaigne",
   "license": "MIT",
