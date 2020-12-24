@@ -7,7 +7,7 @@ export class OkiniriAdmin extends Okiniri {
 
   constructor(
     appId: string,
-    appSecret: string,
+    appSecret: string
   ) {
     super(appId, 'ADMIN', appSecret);
   }
@@ -46,7 +46,7 @@ export class OkiniriAdmin extends Okiniri {
     fromTag: string,
     fromConstraint: string,
     linkTag: string,
-    toTag: string, toConstraint: string,
+    toTag: string, toConstraint: string
   ): Promise<Rule> {
 
     const request = {

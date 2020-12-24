@@ -1,7 +1,13 @@
 import { OkiniriAdmin } from './admin';
 import { OkiniriClient } from './client';
+import { PaginatedResult } from './model';
 import { Okiniri } from './okiniri';
 
+export interface GraphLink {
+  tag: string;
+  timestamp: number;
+  target: GraphObject;
+}
 
 export class GraphObject {
 
@@ -11,10 +17,15 @@ export class GraphObject {
     public tag: string,
     public ownerId: string,
     public timestamp: number,
-    public data?: string,
+    public data?: string
   ) {}
 
-  linkFrom(linkTag?: string, objectTag?: string, orderBy?: string, paginationToken?: string) {
+  linkFrom(
+    linkTag?: string,
+    objectTag?: string,
+    orderBy?: string,
+    paginationToken?: string
+  ): Promise<PaginatedResult<GraphLink>> {
 
     const request = {
       query:
@@ -42,7 +53,7 @@ export class GraphObject {
 
     return this.graph.sendRequest(request).then(data => {
       const { size, token, result } = data.ObjectById.linkFrom;
-      const links = result.map(rawLink => parseRawLink(this.graph, rawLink));
+      const links: GraphLink[] = result.map(rawLink => parseRawLink(this.graph, rawLink));
       return {
         size,
         token,
@@ -51,7 +62,12 @@ export class GraphObject {
     });
   }
 
-  linkTo(linkTag?: string, objectTag?: string, orderBy?: string, paginationToken?: string) {
+  linkTo(
+    linkTag?: string,
+    objectTag?: string,
+    orderBy?: string,
+    paginationToken?: string
+  ): Promise<PaginatedResult<GraphLink>> {
 
     const request = {
       query:
@@ -79,7 +95,7 @@ export class GraphObject {
 
     return this.graph.sendRequest(request).then(data => {
       const { size, token, result } = data.ObjectById.linkFrom;
-      const links = result.map(rawLink => parseRawLink(this.graph, rawLink));
+      const links: GraphLink[] = result.map(rawLink => parseRawLink(this.graph, rawLink));
       return {
         size,
         token,
@@ -89,15 +105,9 @@ export class GraphObject {
   }
 }
 
-export interface GraphLink {
-  tag: string;
-  timestamp: number;
-  target: GraphObject;
-}
-
 export function parseRawLink(
   graph: Okiniri | OkiniriClient | OkiniriAdmin,
-  rawLink: any,
+  rawLink: any
 ): GraphLink {
   return {
     tag: rawLink.tag,
@@ -108,7 +118,7 @@ export function parseRawLink(
       rawLink.target.tag,
       rawLink.target.ownerId,
       rawLink.target.timestamp,
-      rawLink.target.data,
+      rawLink.target.data
     ),
   };
 }

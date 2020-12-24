@@ -30,7 +30,7 @@ export class Okiniri {
   constructor(
     protected appId: string,
     protected userId: string,
-    protected userSecret: string,
+    protected userSecret: string
   ) { }
 
   async sendRequest(request: GraphQlRequest) {
@@ -60,7 +60,7 @@ export class Okiniri {
     tag: string,
     userId: string,
     objectId?: string,
-    objectData?: string,
+    objectData?: string
   ): Promise<GraphObject> {
 
     const request = {
@@ -85,7 +85,7 @@ export class Okiniri {
         object.tag,
         object.ownerId,
         object.timestamp,
-        object.data,
+        object.data
       );
     });
   }
@@ -130,7 +130,7 @@ export class Okiniri {
         object.tag,
         object.ownerId,
         object.timestamp,
-        object.data,
+        object.data
       );
     });
   }
@@ -139,7 +139,7 @@ export class Okiniri {
     toId: string,
     linkTag: string,
     fromTag?: string,
-    fromId?: string,
+    fromId?: string
   ): Promise<LinkInfo> {
     const request = {
       query:
@@ -197,7 +197,7 @@ export class Okiniri {
     fromTag?: string,
     linkTag?: string,
     toTag?: string,
-    paginationToken?: string,
+    paginationToken?: string
   ): Promise<PaginatedResult<Rule>> {
 
     const request = {
@@ -224,7 +224,7 @@ export class Okiniri {
   async getObjects(
     tag?: string,
     orderBy?: string,
-    paginationToken?: string,
+    paginationToken?: string
   ): Promise<PaginatedResult<GraphObject>> {
 
     const request = {
@@ -252,7 +252,7 @@ export class Okiniri {
         rawObject.tag,
         rawObject.ownerId,
         rawObject.timestamp,
-        rawObject.data,
+        rawObject.data
       ));
       return {
         size,
