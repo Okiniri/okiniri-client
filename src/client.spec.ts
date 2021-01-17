@@ -24,7 +24,7 @@ const fetchMock = mocked(fetch);
 describe('Test client class', () => {
   test('Test default url', () => {
     const cli = new OkiniriClient(token);
-    expect((cli as any).url).toBe('https://europe-west1-okiniri-core.cloudfunctions.net/api_v0 ');
+    expect((cli as any).url).toBe('https://europe-west1-okiniri-core.cloudfunctions.net/api_v0');
   });
 
   test('Test provided url', () => {

@@ -7,7 +7,7 @@ import {
   validateCreateOrDeleteLinks,
 } from '@okiniri/validate';
 
-const DEFAULT_API_URL = 'https://europe-west1-okiniri-core.cloudfunctions.net/api_v0 ';
+const DEFAULT_API_URL = 'https://europe-west1-okiniri-core.cloudfunctions.net/api_v0';
 
 /** Override default options of the client */
 export interface OkiniriClientOptions {
