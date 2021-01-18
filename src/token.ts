@@ -20,5 +20,5 @@ export function createToken(graphId: string, secret: string) {
   const header = JSON.stringify({ alg: 'HS256', typ: 'JWT' });
   const payload = JSON.stringify({ graphId });
 
-  return sign('HS256', header, payload, secret);
+  return sign('HS256', header, payload, { utf8: secret });
 }
